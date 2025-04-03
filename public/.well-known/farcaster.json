@@ -1,8 +1,8 @@
 {
   "accountAssociation": {
     "header": "eyJmaWQiOjQ4MjMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg3RjlBNjk5MkE1NGRjMmYyM0YxMTA1OTIxNzE1QkQ2MTgxMUU1YjcxIn0",
-    "payload": "eyJkb21haW4iOiJwYXJhbGxheC5jb29tIn0",
-    "signature": "MHhlNDgyM2YxODE0ZDQ3OTJlMmUwYTE2OWI2MTBlODYxN2VjZTc5MzM0OTIzY2Y3YWUyZmEyODJmMzkxZmJiNmM0MjhjMTc4OWQwMzEyZjAwMDA5YTYyMjBiODg1ZDE3NDMwYjU2OTM0NTk4ZmM1ZWUyNTAxZjYxMDNjYjg1ZTNhOTFi"
+    "payload": "eyJkb21haW4iOiJwYXJhbGxheC5jb29sIn0",
+    "signature": "MHhlMDBkMDI2OTIzYjNlODM1OTJlMmZmYTZmZDhiZjk1NzAyYTI4MzgzYWRlYjc5MWQ0ODBkZTRkNzQ3MDM2NzcxMWUxMDM0YTgwOTkxNDljODk4MTQ1ZjE3YzFhZTFjODNiNjQ1NjMxNjZjYzdjMWM3Y2JmY2M5ODkyNTMzNmZiMjFj"
   },
   "frame": {
     "name": "Parallax",
