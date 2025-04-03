@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjQ4MjMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg3RjlBNjk5MkE1NGRjMmYyM0YxMTA1OTIxNzE1QkQ2MTgxMUU1YjcxIn0",
+    "payload": "eyJkb21haW4iOiI4ZmQ0LTY2LTY4LTIwMS0xNDIubmdyb2stZnJlZS5hcHAifQ",
+    "signature": "MHg2ZWJmM2ExYjE2MjNlMTFlYzg0NDE3MjlmNjM0MzNlZmNjMjI2OGJlYTIyZDdiNTMxNDg0NzRmZGEzMzA5MTU4MDFhM2EwNGIzOTM1ZDZkODcxYTRhZTFiMGZmNDZkODRkMGJmMTYyYzlhZTJhYmFjODIyNzJkNGJkZjMyNzRiYzFi"
+  },
+  "frame": {
+    "name": "Parallax",
+    "version": "1",
+    "iconUrl": "https://azure-tiny-tahr-350.mypinata.cloud/ipfs/bafybeidm736siboiifkhr2zfiymdclecrmymbralahwrddmhxxelazo3ei",
+    "homeUrl": "https://parallax.cool",
+    "imageUrl": "https://azure-tiny-tahr-350.mypinata.cloud/ipfs/bafybeidm736siboiifkhr2zfiymdclecrmymbralahwrddmhxxelazo3ei",
+    "buttonTitle": "Join the investigation",
+    "splashImageUrl": "https://azure-tiny-tahr-350.mypinata.cloud/ipfs/bafybeidl7atskfyntkvbgfly3hzhfbs3pofrvjz2attwatlbfsaeqkknvm",
+    "splashBackgroundColor": "#f5f0ec",
+    "webhookUrl": "https://justins-macbook-pro.tailadeea5.ts.net/webhooks"
+  }
+}

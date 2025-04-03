@@ -1,6 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router";
 import { BaseCharacter, Message } from "../types";
+import { BASE_URL } from "../utils/config";
+import { v4 as uuidv4 } from "uuid";
+import { useConnect } from "wagmi";
+import { sdk } from "@farcaster/frame-sdk";
+import jwt from "jwt-encode";
+import useAuthToken from "../hooks/useAuthToken";
 
 const Character = () => {
   const [character, setCharacter] = useState<BaseCharacter>({
@@ -18,6 +24,9 @@ const Character = () => {
   const [crime, setCrime] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { characterId } = useParams();
+  const { generateToken } = useAuthToken();
+
+  const { connect, connectors } = useConnect();
 
   useEffect(() => {
     const characters = localStorage.getItem("parallax-characters");
@@ -84,11 +93,13 @@ const Character = () => {
 
     try {
       // Create the request
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/chat`, {
+      const token = await generateToken();
+      const response = await fetch(`${BASE_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "text/event-stream",
+          'fc-auth-token': token
         },
         body: JSON.stringify({
           characterId: character.keyvalues.characterId,
@@ -166,7 +177,9 @@ const Character = () => {
 
   return (
     <div className="w-[90%] mx-auto py-10">
-        <Link to="/case-file"><p className="mb-4 uppercase text-xs underline">Back to case files</p></Link>
+      <Link to="/case-file">
+        <p className="mb-4 uppercase text-xs underline font-pressStart">Back to case files</p>
+      </Link>
       <div className="flex items-center">
         {/* Photo placeholder */}
         <div className="w-16 h-16 bg-gray-200 border-4 border-white mb-1 relative overflow-hidden">

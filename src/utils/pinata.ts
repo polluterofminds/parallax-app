@@ -1,6 +1,7 @@
 import { PinataSDK } from "pinata";
+import { PINATA_GATEWAY_URL } from "./config";
 
 export const pinata = new PinataSDK({
   pinataJwt: "",
-  pinataGateway: import.meta.env.VITE_PINATA_GATEWAY_URL,
+  pinataGateway: PINATA_GATEWAY_URL,
 });

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-import { pinata } from "../utils/pinata";
+import { BASE_URL } from "../utils/config";
+import useAuthToken from "../hooks/useAuthToken";
 
 const Solve = () => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ const Solve = () => {
   });
 
   const navigate = useNavigate();
+  const { generateToken } = useAuthToken();
 
   useEffect(() => {
     // Load the crime description from localStorage
@@ -47,10 +49,12 @@ const Solve = () => {
 
     try {
       // Submit the solution to the API
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/solve`, {
+      const token = await generateToken();
+      const res = await fetch(`${BASE_URL}/solve`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "fc-auth-token": token
         },
         body: JSON.stringify({userSolution: solution}),
       });
@@ -139,9 +143,9 @@ const Solve = () => {
   return (
     <div className="w-[90%] mx-auto py-10">
       <Link to="/case-file">
-        <p className="mb-4 uppercase text-xs underline">Back to case files</p>
+        <p className="mb-4 uppercase text-xs underline font-pressStart">Back to case files</p>
       </Link>
-      <div className="flex flex-col items-center p-4 bg-blue-900 text-white mx-auto font-mono">
+      <div className="mt-20 text-white m-10 font-pressStart max-w-lg mx-auto bg-indigo-900 bg-opacity-80 p-6 rounded-lg mb-8 border border-indigo-700">
         {/* Crime Title Banner */}
         <div className="w-full bg-red-800 p-2 mb-6 border-4 border-white font-pressStart">
           <h1 className={`text-center text-md font-bold mb-1 uppercase`}>
@@ -269,9 +273,9 @@ const Solve = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full text-black bg-white hover:bg-gray-300 p-3 border-4 border-white text-center transition-colors disabled:opacity-50"
+                  className="w-full uppercase px-8 py-3 bg-orange-500 hover:bg-orange-600 text-indigo-950 font-bold rounded transition-all duration-200 hover:scale-105 active:scale-95 font-pressStart"
                 >
-                  <span className={`${pixelText} font-bold`}>
+                  <span className={`text-xs font-bold font-pressStart`}>
                     {submitting ? "SUBMITTING..." : "SUBMIT SOLUTION"}
                   </span>
                 </button>
