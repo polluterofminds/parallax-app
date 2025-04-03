@@ -2,10 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router";
 import { BaseCharacter, Message } from "../types";
 import { BASE_URL } from "../utils/config";
-import { v4 as uuidv4 } from "uuid";
-import { useConnect } from "wagmi";
-import { sdk } from "@farcaster/frame-sdk";
-import jwt from "jwt-encode";
 import useAuthToken from "../hooks/useAuthToken";
 
 const Character = () => {
@@ -25,8 +21,6 @@ const Character = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { characterId } = useParams();
   const { generateToken } = useAuthToken();
-
-  const { connect, connectors } = useConnect();
 
   useEffect(() => {
     const characters = localStorage.getItem("parallax-characters");

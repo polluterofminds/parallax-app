@@ -7,7 +7,7 @@ import {
   useWriteContract,
 } from "wagmi";
 import { abi, usdcAbi } from "../utils/abi";
-import { parseUnits } from "viem";
+import { BaseError, parseUnits } from "viem";
 import {
   PARALLAX_CONTRACT,
   USDC_CONTRACT,
@@ -47,7 +47,7 @@ const Onboarding = ({
     error: parallaxError,
     writeContract: writeParallaxContract,
   } = useWriteContract();
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
   const { connect, connectors } = useConnect();
   const navigate = useNavigate();
 
@@ -61,7 +61,6 @@ const Onboarding = ({
   const {
     data,
     error,
-    isPending: isReadPending,
   } = useReadContracts({
     contracts: [
       {

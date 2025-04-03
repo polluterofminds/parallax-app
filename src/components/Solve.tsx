@@ -4,7 +4,6 @@ import { BASE_URL } from "../utils/config";
 import useAuthToken from "../hooks/useAuthToken";
 
 const Solve = () => {
-  const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -86,6 +85,7 @@ const Solve = () => {
     setMintError("");
 
     try {
+      setMintSuccess(true);
       //   // Create metadata for the NFT
       //   const metadata = {
       //     name: "Parallax Detective Agency - Case Solved",
