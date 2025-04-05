@@ -176,7 +176,7 @@ const Solve = () => {
                 </p>
               </div>
 
-              {!mintSuccess ? (
+              {/* {!mintSuccess ? (
                 <button
                   onClick={handleMintNFT}
                   disabled={mintingNFT}
@@ -195,17 +195,17 @@ const Solve = () => {
                     Check your wallet to view your trophy.
                   </p>
                 </div>
-              )}
+              )} */}
 
-              {mintError && (
+              {/* {mintError && (
                 <p className="text-red-300 text-center mt-2">{mintError}</p>
-              )}
+              )} */}
 
               <Link to="/" className="block w-full mt-6">
                 <div className="bg-blue-700 hover:bg-blue-600 p-2 text-center border-4 border-white transition-colors">
                   <Link to="/">
                     <span
-                      className={`${pixelText} font-bold uppercase underline`}
+                      className={`font-pressStart font-bold uppercase underline`}
                     >
                       Join the next investigation
                     </span>
