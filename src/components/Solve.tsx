@@ -18,6 +18,7 @@ const Solve = () => {
     motive: "",
   });
 
+  
   const navigate = useNavigate();
   const { generateToken } = useAuthToken();
 
