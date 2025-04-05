@@ -9,9 +9,6 @@ const Solve = () => {
   const [success, setSuccess] = useState(false);
   const [crime, setCrime] = useState("");
   const [response, setResponse] = useState("");
-  const [mintingNFT, setMintingNFT] = useState(false);
-  const [mintSuccess, setMintSuccess] = useState(false);
-  const [mintError, setMintError] = useState("");
   const [solution, setSolution] = useState({
     victims: "",
     criminal: "",
@@ -82,63 +79,63 @@ const Solve = () => {
     }
   };
 
-  const handleMintNFT = async () => {
-    setMintingNFT(true);
-    setMintError("");
+  // const handleMintNFT = async () => {
+  //   // setMintingNFT(true);
+  //   // setMintError("");
 
-    try {
-      setMintSuccess(true);
-      //   // Create metadata for the NFT
-      //   const metadata = {
-      //     name: "Parallax Detective Agency - Case Solved",
-      //     description: `Successfully solved the case: ${crime}`,
-      //     attributes: [
-      //       {
-      //         trait_type: "Case",
-      //         value: crime.substring(0, 30) // Truncate if too long
-      //       },
-      //       {
-      //         trait_type: "Criminal",
-      //         value: solution.criminal
-      //       },
-      //       {
-      //         trait_type: "Date Solved",
-      //         value: new Date().toISOString().split('T')[0]
-      //       }
-      //     ]
-      //   };
-      //   // Use pinata to pin the metadata to IPFS
-      //   const pinResult = await pinata.pinJSONToIPFS(metadata);
-      //   if (pinResult.IpfsHash) {
-      //     // Call your API to mint the NFT with the IPFS hash
-      //     const mintRes = await fetch(`${import.meta.env.VITE_BASE_URL}/mint`, {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json"
-      //       },
-      //       body: JSON.stringify({
-      //         metadataUri: `ipfs://${pinResult.IpfsHash}`
-      //       })
-      //     });
-      //     const mintData = await mintRes.json();
-      //     if (mintData.success) {
-      //       setMintSuccess(true);
-      //     } else {
-      //       setMintError(mintData.message || "Failed to mint NFT");
-      //     }
-      //   } else {
-      //     setMintError("Failed to upload metadata to IPFS");
-      //   }
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      setMintError(
-        "An error occurred while minting your NFT. Please try again."
-      );
-    } finally {
-      setMintingNFT(false);
-    }
-  };
+  //   try {
+  //     // setMintSuccess(true);
+  //     //   // Create metadata for the NFT
+  //     //   const metadata = {
+  //     //     name: "Parallax Detective Agency - Case Solved",
+  //     //     description: `Successfully solved the case: ${crime}`,
+  //     //     attributes: [
+  //     //       {
+  //     //         trait_type: "Case",
+  //     //         value: crime.substring(0, 30) // Truncate if too long
+  //     //       },
+  //     //       {
+  //     //         trait_type: "Criminal",
+  //     //         value: solution.criminal
+  //     //       },
+  //     //       {
+  //     //         trait_type: "Date Solved",
+  //     //         value: new Date().toISOString().split('T')[0]
+  //     //       }
+  //     //     ]
+  //     //   };
+  //     //   // Use pinata to pin the metadata to IPFS
+  //     //   const pinResult = await pinata.pinJSONToIPFS(metadata);
+  //     //   if (pinResult.IpfsHash) {
+  //     //     // Call your API to mint the NFT with the IPFS hash
+  //     //     const mintRes = await fetch(`${import.meta.env.VITE_BASE_URL}/mint`, {
+  //     //       method: "POST",
+  //     //       headers: {
+  //     //         "Content-Type": "application/json"
+  //     //       },
+  //     //       body: JSON.stringify({
+  //     //         metadataUri: `ipfs://${pinResult.IpfsHash}`
+  //     //       })
+  //     //     });
+  //     //     const mintData = await mintRes.json();
+  //     //     if (mintData.success) {
+  //     //       setMintSuccess(true);
+  //     //     } else {
+  //     //       setMintError(mintData.message || "Failed to mint NFT");
+  //     //     }
+  //     //   } else {
+  //     //     setMintError("Failed to upload metadata to IPFS");
+  //     //   }
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.error(err);
+  //     setMintError(
+  //       "An error occurred while minting your NFT. Please try again."
+  //     );
+  //   } finally {
+  //     setMintingNFT(false);
+  //   }
+  // };
 
   // Pixel text style class
   const pixelText = "font-mono uppercase tracking-wide";
