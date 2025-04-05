@@ -18,7 +18,6 @@ const Solve = () => {
     motive: "",
   });
 
-  
   const navigate = useNavigate();
   const { generateToken } = useAuthToken();
 
@@ -165,7 +164,7 @@ const Solve = () => {
         {success ? (
           <div className="w-full">
             {/* Success Message */}
-            <div className="w-full bg-green-700 p-4 mb-6 border-4 border-white">
+            <div className="w-full">
               <h2 className={`${pixelText} text-center text-lg font-bold mb-2`}>
                 CASE CLOSED
               </h2>
@@ -181,18 +180,18 @@ const Solve = () => {
                 <button
                   onClick={handleMintNFT}
                   disabled={mintingNFT}
-                  className="w-full bg-purple-700 hover:bg-purple-600 p-3 border-4 border-white text-center transition-colors disabled:opacity-50"
+                  className="w-full uppercase px-8 py-3 bg-orange-500 hover:bg-orange-600 text-indigo-950 font-bold rounded transition-all duration-200 hover:scale-105 active:scale-95 font-pressStart"
                 >
-                  <span className={`${pixelText} font-bold`}>
+                  <span className={`font-pressStart font-bold`}>
                     {mintingNFT ? "MINTING..." : "MINT VICTORY NFT"}
                   </span>
                 </button>
               ) : (
                 <div className="w-full bg-purple-900 p-3 border-4 border-white text-center">
-                  <p className={`${pixelText} font-bold mb-2`}>
+                  <p className={`font-PressStart font-bold mb-2`}>
                     NFT MINTED SUCCESSFULLY!
                   </p>
-                  <p className="text-sm">
+                  <p className="text-sm font-pressStart">
                     Check your wallet to view your trophy.
                   </p>
                 </div>
@@ -204,9 +203,13 @@ const Solve = () => {
 
               <Link to="/" className="block w-full mt-6">
                 <div className="bg-blue-700 hover:bg-blue-600 p-2 text-center border-4 border-white transition-colors">
-                  <span className={`${pixelText} font-bold uppercase`}>
-                    Join the next investigation
-                  </span>
+                  <Link to="/">
+                    <span
+                      className={`${pixelText} font-bold uppercase underline`}
+                    >
+                      Join the next investigation
+                    </span>
+                  </Link>
                 </div>
               </Link>
             </div>
