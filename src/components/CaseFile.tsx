@@ -16,16 +16,14 @@ const CaseFile = () => {
       try {
         setLoading(true);
         //  check local storage first
-        const localCharacters = localStorage.getItem("parallax-characters");
-        const localCrime = localStorage.getItem("parallax-crime");
+        const localCharacters = null//localStorage.getItem("parallax-characters");
+        const localCrime = null//localStorage.getItem("parallax-crime");
 
         if (localCharacters && localCrime) {
           const parsedCharacters = JSON.parse(localCharacters);
           setCharacters(parsedCharacters);
           setCrime(localCrime);
         } else {
-          alert("Did not find local data");
-
           const token = await generateToken();
           const res = await fetch(`${BASE_URL}/case-file`, {
             headers: {

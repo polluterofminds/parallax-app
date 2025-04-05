@@ -7,7 +7,7 @@ import jwt from "jwt-encode";
 export default function useAuthToken() {
     const { connect, connectors } = useConnect(); // Assuming this is your hook
     
-    const generateToken = async () => {
+    const generateToken = async (address: string) => {
       const nonce = uuidv4().split("-").join("d");
       connect({ connector: connectors[0] });
       const signature = await sdk.actions.signIn({
@@ -18,6 +18,7 @@ export default function useAuthToken() {
         message: signature.message,
         signature: signature.signature,
         nonce: nonce,
+        address
       };
       
       const secret = "NOT_SECRET";

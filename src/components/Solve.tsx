@@ -53,9 +53,9 @@ const Solve = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "fc-auth-token": token
+          "fc-auth-token": token,
         },
-        body: JSON.stringify({userSolution: solution}),
+        body: JSON.stringify({ userSolution: solution }),
       });
 
       const data = await res.json();
@@ -68,7 +68,9 @@ const Solve = () => {
         );
       } else {
         setSuccess(false);
-        setResponse(`Not quite!\nVictims: ${data.data.victims}\nCriminal:${data.data.criminal}\nMotive:${data.data.motive}`);
+        setResponse(
+          `Not quite!\nVictims: ${data.data.victims}\nCriminal:${data.data.criminal}\nMotive:${data.data.motive}`
+        );
       }
     } catch (err) {
       console.error(err);
@@ -127,6 +129,7 @@ const Solve = () => {
       //   } else {
       //     setMintError("Failed to upload metadata to IPFS");
       //   }
+      navigate("/");
     } catch (err) {
       console.error(err);
       setMintError(
@@ -143,7 +146,9 @@ const Solve = () => {
   return (
     <div className="w-[90%] mx-auto py-10">
       <Link to="/case-file">
-        <p className="mb-4 uppercase text-xs underline font-pressStart">Back to case files</p>
+        <p className="mb-4 uppercase text-xs underline font-pressStart">
+          Back to case files
+        </p>
       </Link>
       <div className="mt-20 text-white m-10 font-pressStart max-w-lg mx-auto bg-indigo-900 bg-opacity-80 p-6 rounded-lg mb-8 border border-indigo-700">
         {/* Crime Title Banner */}

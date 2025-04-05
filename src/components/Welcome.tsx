@@ -77,7 +77,7 @@ function Welcome() {
       
       const token = await generateToken();
 
-      const res = await fetch(`${BASE_URL}/users/me`, {
+      const res = await fetch(`${BASE_URL}/users/me?address=${address}`, {
         method: "GET",
         headers: {
           "fc-auth-token": token,

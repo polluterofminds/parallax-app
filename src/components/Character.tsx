@@ -18,6 +18,7 @@ const Character = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentResponse, setCurrentResponse] = useState("");
   const [crime, setCrime] = useState("");
+  const [chatError, setErrorMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { characterId } = useParams();
   const { generateToken } = useAuthToken();
@@ -66,25 +67,25 @@ const Character = () => {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setErrorMessage("");
     if (!inputText.trim() || isLoading) return;
-
+    
     // Add user message to chat
     const userMessage: Message = {
       role: "user",
       content: inputText,
     };
-
+    
     // Update messages with the new user message
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInputText("");
     setIsLoading(true);
-
+    
     // Reset current response
     setCurrentResponse("");
     let fullResponse = ""; // Use a local variable to track the complete response
-
+    
     try {
       // Create the request
       const token = await generateToken();
@@ -101,63 +102,77 @@ const Character = () => {
           messages: updatedMessages,
         }),
       });
-
+      
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(`Server error: ${response.status}`);
       }
-
+      
       // Process the stream
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
-
+      
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
+        
         const chunk = decoder.decode(value);
         const lines = chunk.split("\n\n");
-
+        
         for (const line of lines) {
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
+            
             if (data === "[DONE]") {
               // Stream is complete
               break;
             }
-
+            
             try {
               const parsedData = JSON.parse(data);
+              
+              // Check if the response contains an error
+              if (parsedData.error) {
+                throw new Error(parsedData.message || "An error occurred");
+              }
+              
               const contentChunk = parsedData.content || "";
               fullResponse += contentChunk; // Add to local variable
               setCurrentResponse(fullResponse); // Update state with complete response so far
             } catch (e) {
               console.error("Error parsing JSON:", e);
+              throw e; // Re-throw to be caught by the outer try-catch
             }
           }
         }
       }
-
+      
       // Add the complete AI response to messages using the local variable
-      const assistantMessage: Message = {
-        role: "assistant",
-        content: fullResponse,
-      };
-
-      // Update messages state with both user and assistant messages
-      const finalMessages = [...updatedMessages, assistantMessage];
-      setMessages(finalMessages);
-    } catch (error) {
+      if (fullResponse) {
+        const assistantMessage: Message = {
+          role: "assistant",
+          content: fullResponse,
+        };
+        
+        // Update messages state with both user and assistant messages
+        const finalMessages = [...updatedMessages, assistantMessage];
+        setMessages(finalMessages);
+      }
+    } catch (error: any) {
       console.error("Error:", error);
-
-      // Add system error message
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "system",
-          content:
-            "Sorry, there was an error communicating with the character.",
-        },
-      ]);
+      
+      // More specific error handling
+      let errorMessage = "Sorry, there was an error communicating with the character.";
+      
+      // Handle specific error types
+      if (error.message?.includes("overloaded")) {
+        errorMessage = "The AI service is currently overloaded. Please try again in a few moments.";
+      } else if (error.message?.includes("rate limit")) {
+        errorMessage = "You've reached the rate limit. Please try again in a few minutes.";
+      } else if (error.message?.includes("Network response was not ok")) {
+        errorMessage = "Unable to connect to the character service. Please check your internet connection.";
+      }
+      
+      setErrorMessage(errorMessage);
     } finally {
       setIsLoading(false);
       setCurrentResponse(""); // Clear streaming state
@@ -226,6 +241,12 @@ const Character = () => {
                 <div className="bg-gray-100 mr-auto max-w-[80%] p-3 rounded-lg">
                   {currentResponse}
                   <span className="inline-block animate-pulse">▌</span>
+                </div>
+              )}
+
+              {chatError && (
+                <div className="text-red text-center w-full">
+                  <span>{chatError}</span>
                 </div>
               )}
 
