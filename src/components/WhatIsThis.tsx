@@ -59,7 +59,7 @@ const WhatIsThis = () => {
               criminal.
             </li>
             <li>
-              The first to solve the case received the pot minus 10% which goes
+              The first to solve the case receives the pot minus 10% which goes
               to the game.
             </li>
             <li>A new case is automatically generated.</li>
