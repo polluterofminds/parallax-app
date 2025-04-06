@@ -89,8 +89,7 @@ function Welcome() {
       localStorage.setItem("fc-profile-data", JSON.stringify(userData.profile));
       if(userData.profile.frameAdded === false) {
         try {
-          const frameDetails = await sdk.actions.addFrame();
-          alert(JSON.stringify(frameDetails)); 
+          await sdk.actions.addFrame();          
         } catch (error) {
           alert(error);
         }        
