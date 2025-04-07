@@ -213,8 +213,10 @@ const Character = () => {
       <div className="bg-black rounded-md p-4">
         <p className="text-xs font-pressStart text-white">{crime}</p>
       </div>
-      <div className="bg-white rounded-md min-h-[60vh] mt-10 p-4 flex flex-col">
-        <div className="flex-grow overflow-y-auto mb-4">
+      
+      {/* Chat container with fixed height and proper scrolling */}
+      <div className="bg-white rounded-md mt-10 p-4 flex flex-col h-[60vh]">
+        <div className="flex-grow overflow-y-auto mb-4 custom-scrollbar">
           {visibleMessages.length === 0 ? (
             <div className="text-center text-gray-500 mt-10">
               Start a conversation with {character.name}

@@ -51,8 +51,8 @@ function Welcome() {
       const playersNeeded = remainingPlayersNeeded.result;
       const playersRegistered = players.result;     
 
-      const foundAddress = playersRegistered.find((a: string) => a === address);
-      if (foundAddress) {
+      const foundAddress = playersRegistered.find((a: string) => a === address);      
+      if (foundAddress) {        
         setHasDeposited(true);
       } 
 
@@ -87,7 +87,7 @@ function Welcome() {
       const userData = await res.json();
 
       localStorage.setItem("fc-profile-data", JSON.stringify(userData.profile));
-      if(userData.profile.frameAdded === false) {
+      if(userData && userData?.profile?.frameAdded === false) {
         try {
           await sdk.actions.addFrame();          
         } catch (error) {

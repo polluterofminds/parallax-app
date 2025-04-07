@@ -33,7 +33,6 @@ const CaseFile = () => {
           const data = await res.json();
           const { characters, crime } = data;
           setCrime(crime);
-
           if (characters && characters.length > 0) {
             localStorage.setItem(
               "parallax-characters",
@@ -46,7 +45,8 @@ const CaseFile = () => {
         }
 
         setLoading(false);
-      } catch (error) {
+      } catch (error: any) {
+        alert(error.message)
         console.log(error);
         setLoading(false);
       }
@@ -55,7 +55,6 @@ const CaseFile = () => {
   }, []);
 
   const pixelText = "font-mono uppercase tracking-wide";
-
   return (
     <div className="mt-20 text-white m-10 font-pressStart w-[90%] max-w-lg mx-auto bg-indigo-900 bg-opacity-80 p-6 rounded-lg mb-8 border border-indigo-700">
       {loading ? (

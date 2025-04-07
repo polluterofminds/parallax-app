@@ -52,7 +52,7 @@ const Onboarding = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userProfile = localStorage.getItem("fc-profile-data");
+    const userProfile = localStorage.getItem("fc-profile-data");    
     if (userProfile) {
       setUser(JSON.parse(userProfile));
     }
@@ -135,7 +135,7 @@ const Onboarding = ({
       )}&embeds[]=https://parallax.cool`
     );
   };
-
+  
   return (
     <div className="text-blue-200 m-10 font-pressStart max-w-lg mx-auto bg-indigo-900 bg-opacity-80 p-6 rounded-lg mb-8 border border-indigo-700 text-center">
       <h1 className="text-center text-xl font-pressStart mb-6">
