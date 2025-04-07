@@ -19,6 +19,7 @@ const Character = () => {
   const [currentResponse, setCurrentResponse] = useState("");
   const [crime, setCrime] = useState("");
   const [chatError, setErrorMessage] = useState("");
+  const [loadingChatMessages, setLoadingChatMessages] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { characterId } = useParams();
   const { generateToken } = useAuthToken();
@@ -44,8 +45,15 @@ const Character = () => {
     try {
       // Only fetch if we don't already have messages
       if (messages.length === 0) {
+        setLoadingChatMessages(true);
+        const token = await generateToken();
         const response = await fetch(
-          `/chat/${character.keyvalues.characterId}`
+          `${BASE_URL}/chat/${character.keyvalues.characterId}`,
+          {
+            headers: {
+              "fc-auth-token": token,
+            },
+          }
         );
 
         if (response.ok) {
@@ -54,8 +62,11 @@ const Character = () => {
             setMessages(data.messages);
           }
         }
+
+        setLoadingChatMessages(false);
       }
     } catch (error) {
+      setLoadingChatMessages(false);
       console.error("Error initializing conversation:", error);
     }
   };
@@ -69,23 +80,23 @@ const Character = () => {
     e.preventDefault();
     setErrorMessage("");
     if (!inputText.trim() || isLoading) return;
-    
+
     // Add user message to chat
     const userMessage: Message = {
       role: "user",
       content: inputText,
     };
-    
+
     // Update messages with the new user message
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInputText("");
     setIsLoading(true);
-    
+
     // Reset current response
     setCurrentResponse("");
     let fullResponse = ""; // Use a local variable to track the complete response
-    
+
     try {
       // Create the request
       const token = await generateToken();
@@ -94,7 +105,7 @@ const Character = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "text/event-stream",
-          'fc-auth-token': token
+          "fc-auth-token": token,
         },
         body: JSON.stringify({
           characterId: character.keyvalues.characterId,
@@ -102,39 +113,39 @@ const Character = () => {
           messages: updatedMessages,
         }),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-      
+
       // Process the stream
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
-      
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         const chunk = decoder.decode(value);
         const lines = chunk.split("\n\n");
-        
+
         for (const line of lines) {
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
-            
+
             if (data === "[DONE]") {
               // Stream is complete
               break;
             }
-            
+
             try {
               const parsedData = JSON.parse(data);
-              
+
               // Check if the response contains an error
               if (parsedData.error) {
                 throw new Error(parsedData.message || "An error occurred");
               }
-              
+
               const contentChunk = parsedData.content || "";
               fullResponse += contentChunk; // Add to local variable
               setCurrentResponse(fullResponse); // Update state with complete response so far
@@ -145,33 +156,50 @@ const Character = () => {
           }
         }
       }
-      
+
       // Add the complete AI response to messages using the local variable
       if (fullResponse) {
         const assistantMessage: Message = {
           role: "assistant",
           content: fullResponse,
         };
-        
+
         // Update messages state with both user and assistant messages
         const finalMessages = [...updatedMessages, assistantMessage];
         setMessages(finalMessages);
+        //  Store final messages
+        const token = await generateToken();
+        await fetch(
+          `${BASE_URL}/storage/chat/${character.keyvalues.characterId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "fc-auth-token": token,
+            },
+            body: JSON.stringify({ messages: finalMessages }),
+          }
+        );
       }
     } catch (error: any) {
       console.error("Error:", error);
-      
+
       // More specific error handling
-      let errorMessage = "Sorry, there was an error communicating with the character.";
-      
+      let errorMessage =
+        "Sorry, there was an error communicating with the character.";
+
       // Handle specific error types
       if (error.message?.includes("overloaded")) {
-        errorMessage = "The AI service is currently overloaded. Please try again in a few moments.";
+        errorMessage =
+          "The AI service is currently overloaded. Please try again in a few moments.";
       } else if (error.message?.includes("rate limit")) {
-        errorMessage = "You've reached the rate limit. Please try again in a few minutes.";
+        errorMessage =
+          "You've reached the rate limit. Please try again in a few minutes.";
       } else if (error.message?.includes("Network response was not ok")) {
-        errorMessage = "Unable to connect to the character service. Please check your internet connection.";
+        errorMessage =
+          "Unable to connect to the character service. Please check your internet connection.";
       }
-      
+
       setErrorMessage(errorMessage);
     } finally {
       setIsLoading(false);
@@ -187,7 +215,9 @@ const Character = () => {
   return (
     <div className="w-[90%] mx-auto py-10">
       <Link to="/case-file">
-        <p className="mb-4 uppercase text-xs underline font-pressStart">Back to case files</p>
+        <p className="mb-4 uppercase text-xs underline font-pressStart">
+          Back to case files
+        </p>
       </Link>
       <div className="flex items-center">
         {/* Photo placeholder */}
@@ -213,11 +243,15 @@ const Character = () => {
       <div className="bg-black rounded-md p-4">
         <p className="text-xs font-pressStart text-white">{crime}</p>
       </div>
-      
+
       {/* Chat container with fixed height and proper scrolling */}
       <div className="bg-white rounded-md mt-10 p-4 flex flex-col h-[60vh]">
         <div className="flex-grow overflow-y-auto mb-4 custom-scrollbar">
-          {visibleMessages.length === 0 ? (
+          {loadingChatMessages ? (
+            <div className="text-center text-gray-500 mt-10">
+              Checking for previous messages...
+            </div>
+          ) : visibleMessages.length === 0 ? (
             <div className="text-center text-gray-500 mt-10">
               Start a conversation with {character.name}
             </div>
