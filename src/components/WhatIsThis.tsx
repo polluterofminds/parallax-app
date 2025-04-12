@@ -12,57 +12,36 @@ const WhatIsThis = () => {
       </div>
       <div className="text-blue-200 font-pressStart px-4 pt-4 pb-10 m-4 bg-indigo-900 bg-opacity-80 p-6 rounded-lg">
         <h1 className="text-lg mb-4">What is Parallax?</h1>
-        <div className="text-sm">
-          <p className="mb-4">
-            Parallax is an interactive detective game. As a time-slipping
-            detective, you are assigned a case that you need to solve. But
-            there's a catch...
+        <div className="space-y-4 text-sm font-mono tracking-wide line">
+          <p>
+            An interactive detective game where you solve cases through time.
           </p>
-          <p className="mb-4">
-            You'll be racing against other detectives to solve the case first.
-          </p>
-          <h3 className="mb-4">How it works</h3>
-          <ol className="mb-4 list-disc pl-4">
-            <li className="disc">
-              Every detective joins by depositing $10 USDC into the Parallax
-              smart contract.
-            </li>
-            <li>When there are at least 10 detectives, the case is opened.</li>
+          <h3 className="text-md font-pressStart">Game structure</h3>
+          <ul className="list-disc list-disc pl-4">
+            <li>Each season has multiple episodes</li>
+            <li>Each episode is 7 days long</li>
             <li>
-              Every detective has access to the public information about the
-              crime as well as a list of witnesses.
-            </li>
-            <li>
-              All witnesses are AI generated, but they have knowledge of the
-              victim(s) and others who may have been involved.
-            </li>
-            <li>
-              Your conversations with the witnesses are not protected, and they
-              may choose to share information with others that originated from
-              your own conversations.
-            </li>
-            <li>
-              Witnesses will periodically converse with themselves, generating
-              broader knowledge.
-            </li>
-            <li>
-              To solve the crime, you will click the Solve button and provide:
-              <ul>
-                <li>The victim(s)</li>
-                <li>The criminal</li>
+              Episodes focuses on a single crime where you must determine within 7 days:
+              <ol className="pl-8 list-decimal">
+                <li>The vicitim</li>
+                <li>The suspect</li>
                 <li>The motive</li>
-              </ul>
+              </ol>
             </li>
-            <li>
-              To officially solve the case, you must score highly on all three
-              categories with motive weighted more heavily than victim or
-              criminal.
-            </li>
-            <li>
-              The first to solve the case receives the pot minus 10% which goes
-              to the game.
-            </li>
-            <li>A new case is automatically generated.</li>
+            <li>Winners split the pot at the end</li>
+          </ul>
+          <h3 className="text-md font-pressStart">How it works</h3>
+          <ol className="list-disc pl-4">
+            <li>Join with $5 USDC deposit</li>
+            <li>Start anytime during each episode</li>
+            <li>Access public case info and AI witnesses</li>
+            <li>Submit before episode deadlines</li>
+            <li>Only one solution per player per episode</li>
+            <ol className="list-decimal pl-8">
+                <li>Players can buy ONE additional solution attempt</li>
+                <li>Solution attempt payments go into the pot</li>
+            </ol>
+            <li>Winners split 90% of the pot (10% to the game)</li>
           </ol>
         </div>
       </div>

@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/parallax.png";
-import { useNavigate } from "react-router";
-import {
-  useAccount,
-  useConnect,
-  useReadContracts,
-} from "wagmi";
+import { Link, useNavigate } from "react-router";
+import { useAccount, useConnect, useReadContract } from "wagmi";
 import { BASE_URL, wagmiContractConfig } from "../utils/config";
 import Onboarding from "./Onboarding";
 import Loading from "./Loading";
@@ -23,58 +19,37 @@ function Welcome() {
   const { connect, connectors } = useConnect();
   const navigate = useNavigate();
   const { generateToken } = useAuthToken();
-  const { data, error } = useReadContracts({
-    contracts: [
-      {
-        ...wagmiContractConfig,
-        functionName: "getCurrentCasePlayers",
-        args: [],
-      },
-      {
-        ...wagmiContractConfig,
-        functionName: "getRemainingPlayersNeeded",
-        args: [],
-      },
-    ],
-    query: {
-      enabled: !!address,
-    },
-  });
-  const [players, remainingPlayersNeeded]: any = data || [];
 
   useEffect(() => {
-    if (error)
-      alert(
-        `Error: ${(error as BaseError).shortMessage || error.message}`
-      );
-    if (players && remainingPlayersNeeded && address) {
-      const playersNeeded = remainingPlayersNeeded.result;
-      const playersRegistered = players.result;     
-
-      const foundAddress = playersRegistered.find((a: string) => a === address);      
-      if (foundAddress) {        
-        setHasDeposited(true);
-      } 
-
-      setPlayersLeftToRegister(playersNeeded);
-
-      // if(playersNeeded < 1 && foundAddress) {
-      //   navigate("/case-file");
-      // }
-    }
-
-    setLoading(false);
-  }, [players, remainingPlayersNeeded, address, error, navigate]);
-
-  useEffect(() => {
-    //  Check game status on chain
     connect({ connector: connectors[0] });
-  }, []);
+
+    const getDepositStatus = async () => {
+      const token = await generateToken();
+      try {
+        const res = await fetch(`${BASE_URL}/deposit-status?address=${address}`, {
+          headers: {
+            "fc-auth-token": token,
+          },
+        });
+
+        const depositStatus = await res.json();
+        setHasDeposited(depositStatus.data);
+        setLoading(false);
+      } catch (error: any) {
+        alert(error.message);
+        setLoading(false);
+      }
+    };
+
+    if (address) {
+      getDepositStatus();
+    }
+  }, [address]);
 
   const handleConnect = async () => {
     try {
       setStartingInvestigation(true);
-      
+
       const token = await generateToken();
 
       const res = await fetch(`${BASE_URL}/users/me`, {
@@ -87,12 +62,12 @@ function Welcome() {
       const userData = await res.json();
 
       localStorage.setItem("fc-profile-data", JSON.stringify(userData.profile));
-      if(userData && userData?.profile?.frameAdded === false) {
+      if (userData && userData?.profile?.frameAdded === false) {
         try {
-          await sdk.actions.addFrame();          
+          await sdk.actions.addFrame();
         } catch (error) {
           alert(error);
-        }        
+        }
       }
       setHasStarted(true);
       setStartingInvestigation(false);
@@ -109,7 +84,11 @@ function Welcome() {
       ) : (
         <>
           {hasStarted ? (
-            <Onboarding playersLeftToRegister={playersLeftToRegister} setPlayersLeftToRegister={setPlayersLeftToRegister} hasDeposited={hasDeposited} setHasDeposited={setHasDeposited} />
+            <Onboarding
+              episodeTimeLeft="1"
+              hasDeposited={hasDeposited}
+              setHasDeposited={setHasDeposited}
+            />
           ) : (
             <div>
               {/* Main content */}
@@ -149,10 +128,15 @@ function Welcome() {
                   <button
                     disabled={startingInvestigation}
                     onClick={handleConnect}
-                    className="mb-20 uppercase text-xs px-8 py-3 bg-orange-500 hover:bg-orange-600 text-indigo-950 font-bold rounded transition-all duration-200 hover:scale-105 active:scale-95 font-pressStart"
+                    className="uppercase text-xs px-8 py-3 bg-orange-500 hover:bg-orange-600 text-indigo-950 font-bold rounded transition-all duration-200 hover:scale-105 active:scale-95 font-pressStart"
                   >
-                    {startingInvestigation ? "Starting investigation..." : "Investigate"}
+                    {startingInvestigation
+                      ? "Starting investigation..."
+                      : "Investigate"}
                   </button>
+                  <div className="font-pressStart mt-8 mb-20 underline">
+                    <Link to="/info">How does this work?</Link>
+                  </div>
                 </div>
               </div>
 

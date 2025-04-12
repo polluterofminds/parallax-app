@@ -21,7 +21,23 @@ export interface Message {
 }
 
 export type FCProfile = {
-    username: string;
-    fid: string;
-    displayName: string;
-}
+  username: string;
+  fid: string;
+  displayName: string;
+};
+
+export type Episode = {
+  id: string;
+  case_number: number;
+  case_hash: string;
+  created_at: string;
+  duration: number;
+};
+
+export type TimeLeft = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  isOver: boolean;
+};
