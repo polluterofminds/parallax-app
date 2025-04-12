@@ -1,5 +1,5 @@
 // src/workers/timerWorker.ts
-let timerId: number | null = null;
+let timerId: any
 
 self.onmessage = function(e) {
   const { command, endTime } = e.data;

@@ -1,6 +1,6 @@
 import { abi } from "./abi";
 
-export const BASE_URL = "https://justins-macbook-pro.tailadeea5.ts.net";
+export const BASE_URL = "https://parallax-server-production.up.railway.app";
 export const PINATA_GATEWAY_URL = "azure-tiny-tahr-350.mypinata.cloud";
 
 export const PARALLAX_CONTRACT = "0x8e8f1660da1935EF48BEb669463f426A5acE0CB5";

@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import { FCProfile } from "../types";
 import {
-  useAccount,
   useConnect,
-  useReadContracts,
   useWriteContract,
 } from "wagmi";
 import { abi, usdcAbi } from "../utils/abi";
-import { BaseError, parseUnits } from "viem";
+import { parseUnits } from "viem";
 import {
   PARALLAX_CONTRACT,
   USDC_CONTRACT,
-  wagmiContractConfig,
 } from "../utils/config";
 import { Link, useNavigate } from "react-router";
-import { sdk } from "@farcaster/frame-sdk";
 import EpisodeTimer from "./EpisodeTimer";
 
 type OnboardingProps = {
@@ -25,8 +21,7 @@ type OnboardingProps = {
 
 const Onboarding = ({
   hasDeposited,
-  setHasDeposited,
-  episodeTimeLeft,
+  setHasDeposited
 }: OnboardingProps) => {
   const [user, setUser] = useState<FCProfile>({
     username: "",
@@ -46,7 +41,6 @@ const Onboarding = ({
     error: parallaxError,
     writeContract: writeParallaxContract,
   } = useWriteContract();  
-  const { address } = useAccount();
   
   const { connect, connectors } = useConnect();
   const navigate = useNavigate();

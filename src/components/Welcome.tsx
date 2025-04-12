@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/parallax.png";
-import { Link, useNavigate } from "react-router";
-import { useAccount, useConnect, useReadContract } from "wagmi";
-import { BASE_URL, wagmiContractConfig } from "../utils/config";
+import { Link } from "react-router";
+import { useAccount, useConnect } from "wagmi";
+import { BASE_URL } from "../utils/config";
 import Onboarding from "./Onboarding";
 import Loading from "./Loading";
-import { BaseError } from "viem";
 import useAuthToken from "../hooks/useAuthToken";
 import { sdk } from "@farcaster/frame-sdk";
 
@@ -14,10 +13,8 @@ function Welcome() {
   const [loading, setLoading] = useState(true);
   const [startingInvestigation, setStartingInvestigation] = useState(false);
   const [hasDeposited, setHasDeposited] = useState(false);
-  const [playersLeftToRegister, setPlayersLeftToRegister] = useState(10);
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
-  const navigate = useNavigate();
   const { generateToken } = useAuthToken();
 
   useEffect(() => {
