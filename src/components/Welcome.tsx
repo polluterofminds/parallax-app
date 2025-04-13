@@ -39,10 +39,7 @@ function Welcome() {
     };
 
     if (address) {
-      alert("Address found, getting deposit status")
       getDepositStatus();
-    } else {
-      alert("No address");
     }
   }, [address]);
 
